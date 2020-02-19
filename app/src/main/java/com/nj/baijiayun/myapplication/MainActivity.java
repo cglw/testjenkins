@@ -16,6 +16,7 @@ public class MainActivity extends AppCompatActivity {
         ((TextView) findViewById(R.id.tv)).setText(MessageFormat.format("{0}\n{1}\n{2}", BuildConfig.APPLICATION_ID
                 , BuildConfig.BASE_H5_URL
                 , BuildConfig.BASE_URL
+                ,getPackageName()
 
         ));
     }

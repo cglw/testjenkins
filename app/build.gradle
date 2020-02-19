@@ -30,25 +30,32 @@ android {
     //这个是维度的意思
     flavorDimensions "channel"
     productFlavors {
-        wxDebug {
-            buildConfigField "String", "BASE_URL", "${baseurl.api}"
-            buildConfigField "String", "BASE_H5_URL", "${baseurl.h5}"
+        //这个是默认渠道 根据首字母取的
+        a_Debug {
+            buildConfigField "String", "BASE_URL", "\"${baseurl.api}\""
+            buildConfigField "String", "BASE_H5_URL", "\"${baseurl.h5}\""
+            dimension "channel"
+        }
+
+        wxTest {
+            buildConfigField "String", "BASE_URL", "\"${BASE_URL_API_TEST}\""
+            buildConfigField "String", "BASE_H5_URL", "\"${BASE_URL_H5_TEST}\""
             dimension "channel"
         }
         wxDemo {
-            buildConfigField "String", "BASE_URL", BASE_URL_API_DEMO
-            buildConfigField "String", "BASE_H5_URL", BASE_URL_H5_DEMO
+            buildConfigField "String", "BASE_URL", "\"${BASE_URL_API_DEMO}\""
+            buildConfigField "String", "BASE_H5_URL", "\"${BASE_URL_H5_DEMO}\""
             dimension "channel"
         }
         wxRelease {
-            buildConfigField "String", "BASE_URL", BASE_URL_API_RELEASE
-            buildConfigField "String", "BASE_H5_URL", BASE_URL_H5_RELEASE
+            buildConfigField "String", "BASE_URL", "\"${BASE_URL_API_RELEASE}\""
+            buildConfigField "String", "BASE_H5_URL", "\"${BASE_URL_H5_RELEASE}\""
             dimension "channel"
         }
     }
     variantFilter { variant ->
         def names = variant.flavors*.name
-        if (names.contains("wxDebug")||name.contains("debug")) {
+        if (names.contains("Debug") || name.contains("debug")) {
             setIgnore(true)
         }
     }
@@ -58,7 +65,6 @@ android {
             buildConfigField "String", "CHANNEL_ID", "\"${name}\""
             manifestPlaceholders = [CHANNEL_ID: "${name}"]
     }
-
 
 
 }
