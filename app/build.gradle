@@ -1,22 +1,66 @@
 apply plugin: 'com.android.application'
+apply from: 'dist.gradle'
 
 android {
     compileSdkVersion 29
     buildToolsVersion "29.0.2"
     defaultConfig {
-        applicationId "com.nj.baijiayun.myapplication"
+        applicationId APPLICATION_ID
         minSdkVersion 19
         targetSdkVersion 29
-        versionCode 1
-        versionName "1.0"
+        versionCode Integer.parseInt(VERSION_CODE)
+        versionName VERSION_NAME
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
     }
     buildTypes {
         release {
+            buildConfigField "boolean", "LOG_DEBUG", "false"
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+        debug {
+            buildConfigField "boolean", "LOG_DEBUG", "true"
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+
+
+    //这个是维度的意思
+    flavorDimensions "channel"
+    productFlavors {
+        wxDebug {
+            buildConfigField "String", "BASE_URL", "${baseurl.api}"
+            buildConfigField "String", "BASE_H5_URL", "${baseurl.h5}"
+            dimension "channel"
+        }
+        wxDemo {
+            buildConfigField "String", "BASE_URL", BASE_URL_API_DEMO
+            buildConfigField "String", "BASE_H5_URL", BASE_URL_H5_DEMO
+            dimension "channel"
+        }
+        wxRelease {
+            buildConfigField "String", "BASE_URL", BASE_URL_API_RELEASE
+            buildConfigField "String", "BASE_H5_URL", BASE_URL_H5_RELEASE
+            dimension "channel"
+        }
+    }
+    variantFilter { variant ->
+        def names = variant.flavors*.name
+        if (names.contains("wxDebug")||name.contains("debug")) {
+            setIgnore(true)
+        }
+    }
+
+    productFlavors.all {
+        flavor ->
+            buildConfigField "String", "CHANNEL_ID", "\"${name}\""
+            manifestPlaceholders = [CHANNEL_ID: "${name}"]
+    }
+
+
+
 }
 
 dependencies {
