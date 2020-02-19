@@ -19,3 +19,5 @@ def release = [
 ]
 
 ext.baseurl = demo
+
+print("999999")
