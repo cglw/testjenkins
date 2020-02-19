@@ -5,9 +5,10 @@ android {
     compileSdkVersion 29
     buildToolsVersion "29.0.2"
     defaultConfig {
-        applicationId APPLICATION_ID
+
         minSdkVersion 19
         targetSdkVersion 29
+        applicationId APPLICATION_ID
         versionCode Integer.parseInt(VERSION_CODE)
         versionName VERSION_NAME
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -31,23 +32,31 @@ android {
     flavorDimensions "channel"
     productFlavors {
         //这个是默认渠道 根据首字母取的
-        a_Debug {
+        aDebug {
+            applicationId APPLICATION_ID
+            versionCode Integer.parseInt(VERSION_CODE)
             buildConfigField "String", "BASE_URL", "\"${baseurl.api}\""
             buildConfigField "String", "BASE_H5_URL", "\"${baseurl.h5}\""
             dimension "channel"
         }
 
         wxTest {
+            applicationId APPLICATION_ID
+            versionCode Integer.parseInt(VERSION_CODE)
             buildConfigField "String", "BASE_URL", "\"${BASE_URL_API_TEST}\""
             buildConfigField "String", "BASE_H5_URL", "\"${BASE_URL_H5_TEST}\""
             dimension "channel"
         }
         wxDemo {
+            applicationId APPLICATION_ID
+            versionCode Integer.parseInt(VERSION_CODE)
             buildConfigField "String", "BASE_URL", "\"${BASE_URL_API_DEMO}\""
             buildConfigField "String", "BASE_H5_URL", "\"${BASE_URL_H5_DEMO}\""
             dimension "channel"
         }
         wxRelease {
+            applicationId APPLICATION_ID
+            versionCode Integer.parseInt(VERSION_CODE)
             buildConfigField "String", "BASE_URL", "\"${BASE_URL_API_RELEASE}\""
             buildConfigField "String", "BASE_H5_URL", "\"${BASE_URL_H5_RELEASE}\""
             dimension "channel"
@@ -55,7 +64,10 @@ android {
     }
     variantFilter { variant ->
         def names = variant.flavors*.name
-        if (names.contains("Debug") || name.contains("debug")) {
+        if (names.toString().contains("aDebug")
+                || names.toString().contains("Debug")
+                || names.toString().contains("debug")
+        ) {
             setIgnore(true)
         }
     }
