@@ -1,6 +1,23 @@
 apply plugin: 'com.android.application'
 apply from: 'dist.gradle'
 
+
+//pluginExt {
+//    applicationId APPLICATION_ID
+//    jiGuangExt {
+//        JGQQShareKey =  "\"${QQKey}\""
+//        JGWxShareKey =  "\"${WxKey}\""
+//        JGQQShareSecret =  "\"${QQSecret}\""
+//        JGWxShareSecret =  "\"${WxSecret}\""
+//    }
+//    uMengExt {
+//        UMengKey =  "\"${config.UMengKey}\"" //必填 test
+//        UMengSecret =  "\"${config.UMengSecret}\""   //必填
+//
+//    }
+//}
+
+
 android {
     compileSdkVersion 29
     buildToolsVersion "29.0.2"
@@ -12,6 +29,11 @@ android {
         versionCode Integer.parseInt(VERSION_CODE)
         versionName VERSION_NAME
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        resValue "color", "common_main_color", MAIN_COLOR
+        resValue "color", "common_main_bg", MAIN_BG_COLOR
+        def name = APP_NAME
+        println("name---->" + name)
+        resValue "string", "public_app_name", APP_NAME
 
     }
     buildTypes {
@@ -21,7 +43,7 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
         debug {
-            buildConfigField "boolean", "LOG_DEBUG", "true"
+            buildConfigField "boolean", "LOG_DEBUG", "false"
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
@@ -31,45 +53,48 @@ android {
     //这个是维度的意思
     flavorDimensions "channel"
     productFlavors {
-        //这个是默认渠道 根据首字母取的
+        //这个是默认渠道 根据首字母默认取的所以
         aDebug {
-            applicationId APPLICATION_ID
-            versionCode Integer.parseInt(VERSION_CODE)
             buildConfigField "String", "BASE_URL", "\"${baseurl.api}\""
             buildConfigField "String", "BASE_H5_URL", "\"${baseurl.h5}\""
             dimension "channel"
+
         }
 
         wxTest {
-            applicationId APPLICATION_ID
-            versionCode Integer.parseInt(VERSION_CODE)
             buildConfigField "String", "BASE_URL", "\"${BASE_URL_API_TEST}\""
             buildConfigField "String", "BASE_H5_URL", "\"${BASE_URL_H5_TEST}\""
             dimension "channel"
+
         }
         wxDemo {
-            applicationId APPLICATION_ID
-            versionCode Integer.parseInt(VERSION_CODE)
             buildConfigField "String", "BASE_URL", "\"${BASE_URL_API_DEMO}\""
             buildConfigField "String", "BASE_H5_URL", "\"${BASE_URL_H5_DEMO}\""
             dimension "channel"
         }
         wxRelease {
-            applicationId APPLICATION_ID
-            versionCode Integer.parseInt(VERSION_CODE)
             buildConfigField "String", "BASE_URL", "\"${BASE_URL_API_RELEASE}\""
             buildConfigField "String", "BASE_H5_URL", "\"${BASE_URL_H5_RELEASE}\""
             dimension "channel"
+
         }
     }
+
+    def build_apk_flavors = ""
+    build_apk_flavors += FLAVORS_DEMO.toBoolean() ? "wxDemo" : ""
+    build_apk_flavors += FLAVORS_TEST.toBoolean() ? "wxTest" : ""
+    build_apk_flavors += FLAVORS_RELEASE.toBoolean() ? "wxRelease" : ""
+    println("build_apk_flavors-->"+build_apk_flavors)
     variantFilter { variant ->
-        def names = variant.flavors*.name
-        if (names.toString().contains("aDebug")
-                || names.toString().contains("Debug")
-                || names.toString().contains("debug")
-        ) {
+        def flavor_name = variant.flavors*.name[0]
+        //names [wxTest]
+        println(flavor_name)
+        if (build_apk_flavors.contains(flavor_name)) {
+            setIgnore(false)
+        } else {
             setIgnore(true)
         }
+
     }
 
     productFlavors.all {

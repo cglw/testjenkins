@@ -27,7 +27,6 @@ task dist(group: 'dist') {
                         file(outputFile).renameTo(file("../dist/" + fileName))
                     }
 
-
             }
 
         }
