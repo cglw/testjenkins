@@ -4,7 +4,11 @@
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
 
-<!--    <color name="common_main_color">#418EE7</color>-->
+    <color name="colorSelect">#3d66fc</color>
+    <color name="colorUnSelect">#b7b7b7</color>
+
+
+    <!--    <color name="common_main_color">#418EE7</color>-->
 <!--    <color name="common_main_bg">#FFF0F2F5</color>-->
 
 </resources>

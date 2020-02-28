@@ -1,6 +1,6 @@
 task dist(group: 'dist') {
     tasks.dist.dependsOn("assembleRelease")
-    doFirst{
+    doFirst {
         delete new File(rootProject.rootDir, 'dist')
         println("delete dist")
     }
@@ -22,7 +22,7 @@ task dist(group: 'dist') {
                     if (variant.productFlavors != null && variant.productFlavors.size() > 0) {
                         productFlavor = "_${variant.productFlavors[0].name}"
                     }
-                    fileName = "${rootProject.name}${productFlavor}_v${variant.versionName}_${variant.versionCode}_${time}_${variant.buildType.name}${abiName}.apk"
+                    fileName = "${APP_NAME}${productFlavor}_v${variant.versionName}_${variant.versionCode}_${time}_${variant.buildType.name}${abiName}.apk"
                     if (file(outputFile).exists()) {
                         file(outputFile).renameTo(file("../dist/" + fileName))
                     }

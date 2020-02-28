@@ -1,7 +1,5 @@
 apply plugin: 'com.android.application'
 apply from: 'dist.gradle'
-
-
 //pluginExt {
 //    applicationId APPLICATION_ID
 //    jiGuangExt {
@@ -11,8 +9,8 @@ apply from: 'dist.gradle'
 //        JGWxShareSecret =  "\"${WxSecret}\""
 //    }
 //    uMengExt {
-//        UMengKey =  "\"${config.UMengKey}\"" //必填 test
-//        UMengSecret =  "\"${config.UMengSecret}\""   //必填
+//        UMengKey =  "\"${UMengKey}\"" //必填 test
+//        UMengSecret =  "\"${UMengSecret}\""   //必填
 //
 //    }
 //}
@@ -43,9 +41,11 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
         debug {
-            buildConfigField "boolean", "LOG_DEBUG", "false"
+            buildConfigField "boolean", "LOG_DEBUG", "true"
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            buildConfigField "String", "BASE_URL", "\"${baseurl.api}\""
+            buildConfigField "String", "BASE_H5_URL", "\"${baseurl.h5}\""
         }
     }
 
@@ -54,18 +54,10 @@ android {
     flavorDimensions "channel"
     productFlavors {
         //这个是默认渠道 根据首字母默认取的所以
-        aDebug {
-            buildConfigField "String", "BASE_URL", "\"${baseurl.api}\""
-            buildConfigField "String", "BASE_H5_URL", "\"${baseurl.h5}\""
-            dimension "channel"
-
-        }
-
         wxTest {
+            dimension "channel"
             buildConfigField "String", "BASE_URL", "\"${BASE_URL_API_TEST}\""
             buildConfigField "String", "BASE_H5_URL", "\"${BASE_URL_H5_TEST}\""
-            dimension "channel"
-
         }
         wxDemo {
             buildConfigField "String", "BASE_URL", "\"${BASE_URL_API_DEMO}\""
@@ -84,10 +76,10 @@ android {
     build_apk_flavors += FLAVORS_DEMO.toBoolean() ? "wxDemo" : ""
     build_apk_flavors += FLAVORS_TEST.toBoolean() ? "wxTest" : ""
     build_apk_flavors += FLAVORS_RELEASE.toBoolean() ? "wxRelease" : ""
-    println("build_apk_flavors-->"+build_apk_flavors)
+    println("build_apk_flavors-->" + build_apk_flavors)
     variantFilter { variant ->
         def flavor_name = variant.flavors*.name[0]
-        //names [wxTest]
+//        //names [wxTest]
         println(flavor_name)
         if (build_apk_flavors.contains(flavor_name)) {
             setIgnore(false)
@@ -102,6 +94,17 @@ android {
             buildConfigField "String", "CHANNEL_ID", "\"${name}\""
             manifestPlaceholders = [CHANNEL_ID: "${name}"]
     }
+
+    def urls ="BASE_URL_API_TEST=http_test BASE_URL_H5_TEST=http_test_h5 BASE_URL_API_DEMO=http_demo BASE_URL_H5_DEMO=http_demo_h5 BASE_URL_API_RELEASE=http_release BASE_URL_H5_RELEASE=http_release_h5\n" +
+            "BASE_URL_API_TEST=http_test BASE_URL_H5_TEST=http_test_h5 BASE_URL_API_DEMO=http_demo BASE_URL_H5_DEMO=http_demo_h5 BASE_URL_API_RELEASE=http_release BASE_URL_H5_RELEASE=http_release_h5"
+
+    new File("touch").write(urls)
+//    println(BASE_URL_API_TEST)
+//    BASE_URL_API_TEST="81"
+//    println(BASE_URL_API_TEST)
+
+//  def workspace = env.WORKSPACE
+//    def projectDir = groovyUtils.projectPath
 
 
 }
