@@ -106,6 +106,10 @@ android {
 //  def workspace = env.WORKSPACE
 //    def projectDir = groovyUtils.projectPath
 
+    compileOptions {
+        sourceCompatibility 1.8
+        targetCompatibility 1.8
+    }
 
 }
 
@@ -116,4 +120,13 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+    implementation 'androidx.viewpager2:viewpager2:1.0.0'
+    implementation 'com.github.bumptech.glide:glide:4.11.0'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.11.0'
+    api "com.youth.banner:banner:1.4.10"
+//    api 'com.youth.banner:banner:2.0.0-alpha02'  //预览版
+    implementation 'com.to.aboomy:pager2banner:0.0.2' //最新版本
+
+    implementation 'com.github.zhpanvip:BannerViewPager:2.6.4'
+
 }

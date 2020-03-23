@@ -6,6 +6,58 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".MainActivity">
+<!--    android:clipChildren="false"-->
+
+    <Button
+        android:onClick="press"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <Button
+        android:text="dialog"
+        android:onClick="dialog"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <RelativeLayout
+        android:visibility="gone"
+
+        android:layout_width="match_parent"
+        android:layout_height="200dp">
+        <View
+            android:background="@color/colorAccent"
+            android:id="@+id/testV"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+
+        <View
+            android:background="#000000"
+            android:layout_centerInParent="true"
+            android:layout_width="1dp"
+            android:layout_height="match_parent"/>
+
+    </RelativeLayout>
+
+
+    <com.youth.banner.Banner
+        android:visibility="gone"
+        android:id="@+id/banner"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:clipChildren="false" />
+
+    <com.to.aboomy.pager2banner.Banner
+        android:visibility="gone"
+        android:id="@+id/banner2"
+        android:layout_width="match_parent"
+        android:layout_height="200dp" />
+
+
+    <com.zhpan.bannerview.BannerViewPager
+        android:id="@+id/banner_vp"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"/>
 
     <TextView
         android:id="@+id/tv"
@@ -30,10 +82,10 @@
         android:layout_height="match_parent">
 
         <TextView
-           android:text="123123213123"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:onClick="testClick" />
+            android:onClick="testClick"
+            android:text="123123213123" />
 
         <FrameLayout
             android:id="@+id/framlayout"
